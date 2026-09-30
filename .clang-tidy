@@ -1,0 +1,27 @@
+---
+Checks: >
+  -*,
+  readability-*,
+  clang-analyzer-*,
+  bugprone-*,
+  performance-*,
+  misc-*
+----
+Checks: >
+  -*,
+  readability-*,
+  clang-analyzer-*,
+  bugprone-*,
+  performance-*,
+  misc-*,
+  -performance-no-int-to-ptr,
+  -bugprone-easily-swappable-parameters,
+  -clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling
+
+WarningsAsErrors: 'readability-*,clang-analyzer-*,bugprone-*'
+
+CheckOptions:
+  - key:   readability-braces-around-statements.ShortStatementLines
+    value: '1'
+  - key:   bugprone-reserved-identifier.AllowedIdentifiers
+    value: '_start;__bss_start;__bss_end;__image_end;__image_size;_stack_top'
