@@ -3,7 +3,6 @@
 
 #include <stdint.h>
 
-#include "am335x_address.h"
 #include "common.h"
 
 typedef struct
@@ -40,7 +39,5 @@ typedef struct
     __IO uint32_t gpio_cleardataout;
     __IO uint32_t gpio_setdataout;
 } gpio_regs_t;
-
-#define GPIO1_REGS ((gpio_regs_t *)GPIO1_BASE)
 
 #endif  // __AM335X_GPIO_REGISTERS__H__

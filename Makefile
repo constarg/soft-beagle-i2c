@@ -9,9 +9,8 @@ INCLUDE := -I ./include/
 
 all: dirmake ./bin/MLO
 
-./build/main.elf: ./src/startup.s ./src/main.c am335x.ld
-	$(CC) -E $(CFLAGS) $(LDFLAGS) ${INCLUDE} ./src/startup.s ./src/main.c
-	$(CC) $(CFLAGS) $(LDFLAGS) ${INCLUDE} ./src/startup.s ./src/main.c -o ./build/main.elf
+./build/main.elf: ./src/startup.s ./src/main.c ./src/am335x_registers.c am335x.ld
+	$(CC) $(CFLAGS) $(LDFLAGS) ${INCLUDE} ./src/startup.s ./src/main.c ./src/am335x_registers.c -o ./build/main.elf
 	$(SIZE) ./build/main.elf
 
 ./bin/MLO: ./build/main.elf
