@@ -3,7 +3,7 @@ ENTRY(_start)
 MEMORY
 {
     HDR  (r)   : ORIGIN = 0x402F03F8, LENGTH = 8
-    SRAM (rwx) : ORIGIN = 0x402F0400, LENGTH = 0x1B400
+    SRAM (rwx) : ORIGIN = 0x402F0400, LENGTH = 64K
 }
 
 SECTIONS
