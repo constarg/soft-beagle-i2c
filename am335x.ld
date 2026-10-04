@@ -35,4 +35,13 @@ SECTIONS
 
 __image_size = __image_end - _start;
 _stack_top = 0x4030FF00;
+
+_irq_undefined_addr       = 0x4030CE24;
+_irq_swi_addr             = 0x4030CE28;
+_irq_pre_fetch_abort_addr = 0x4030CE2C;
+_irq_data_abort_addr      = 0x4030CE30;
+_irq_unused_addr          = 0x4030CE34;
+_irq_irq_addr             = 0x4030CE38;
+_irq_fiq_addr             = 0x4030CE3C;
+
 ASSERT(_start == 0x402F0400, "ensure that _start starts from the base of the on-chip memory")
