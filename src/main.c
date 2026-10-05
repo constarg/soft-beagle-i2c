@@ -10,6 +10,8 @@ main(void)
 
         for (int i = 0; i < 100; i++);
 
+        i2c_send_address(0x3, READ);
+
         i2c_send_data(0xF);
 
         i2c_ack();

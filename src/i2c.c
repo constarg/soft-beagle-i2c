@@ -1,4 +1,25 @@
-
+/**
+ * File: i2c.c
+ *
+ ***********************************************************************
+ * Copyright (C) 2026  Constantinos Argyriou
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ *
+ * Email: constarg@pm.me
+ ***********************************************************************
+ */
 #include "i2c.h"
 
 #include <stdint.h>
@@ -41,8 +62,8 @@ i2c_init(void)
     i2c_stop();
 }
 
-void
-i2c_send_data(uint8_t src)
+static void
+send_byte(uint8_t src)
 {
     for (int bit = 0; bit < 8; bit++) {
         if (((src >> bit) & 0x1U) == 0x1) {
@@ -57,6 +78,14 @@ i2c_send_data(uint8_t src)
         }
     }
 }
+
+void
+i2c_send_data(uint8_t src)
+{ send_byte(src); }
+
+void
+i2c_send_address(uint8_t addr, addr_mode_t mode)
+{ send_byte((addr & 0xEF) | (mode << 7)); }
 
 void
 i2c_ack(void)
