@@ -35,9 +35,22 @@
  */
 typedef enum
 {
-    READ  = 1,
-    WRITE = 0
+    READ  = 1, /* The following operations are
+                  for read. */
+    WRITE = 0, /* The following operations are
+                  for write. */
 } addr_mode_t;
+
+/**
+ * Determine if the target device actaully
+ * recieved the byte/address send by the
+ * master.
+ */
+typedef enum
+{
+    ACK  = 0, /* The device recieve everything right. */
+    NACK = 1, /* The device failed to recieve. */
+} ack_response_t;
 
 /**
  * i2c_init Initializes all the registers & modules required
@@ -65,8 +78,11 @@ extern void i2c_send_address(uint8_t addr, addr_mode_t mode);
 /**
  * i2c_ack Sends the ACK bit, required to make sure that
  * the target device was listening while sending data.
+ *
+ * @return Whether the target device recieved the master's
+ * request.
  */
-extern void i2c_ack(void);
+extern ack_response_t i2c_ack(void);
 
 /**
  * i2c_stop Terminates the communication with the target

@@ -27,13 +27,13 @@
 #include "am335x_registers.h"
 
 #define SCL_PIN (6)
-#define SDL_PIN (7)
+#define SDA_PIN (7)
 
 void
 i2c_start(void)
 {
     // First set the SDL HIGH.
-    g_gpio1_registers->gpio_cleardataout = (1U << SDL_PIN);
+    g_gpio1_registers->gpio_cleardataout = (1U << SDA_PIN);
     // Then, set the SCL HIGH.
     g_gpio1_registers->gpio_cleardataout = (1U << SCL_PIN);
 }
@@ -44,7 +44,7 @@ i2c_stop(void)
     // First set the SCL LOW.
     g_gpio1_registers->gpio_setdataout = (1U << SCL_PIN);
     // Then, set the SDL LOW.
-    g_gpio1_registers->gpio_setdataout = (1U << SDL_PIN);
+    g_gpio1_registers->gpio_setdataout = (1U << SDA_PIN);
 }
 
 void
@@ -57,7 +57,7 @@ i2c_init(void)
 
     g_gpio1_registers->gpio_ctrl &= ~(1U << 0);
     g_gpio1_registers->gpio_oe &= ~(1U << SCL_PIN);
-    g_gpio1_registers->gpio_oe &= ~(1U << SDL_PIN);
+    g_gpio1_registers->gpio_oe &= ~(1U << SDA_PIN);
 
     i2c_stop();
 }
@@ -67,10 +67,10 @@ send_byte(uint8_t src)
 {
     for (int bit = 0; bit < 8; bit++) {
         if (((src >> bit) & 0x1U) == 0x1) {
-            g_gpio1_registers->gpio_setdataout = (1U << SDL_PIN);
+            g_gpio1_registers->gpio_setdataout = (1U << SDA_PIN);
             g_gpio1_registers->gpio_setdataout = (1U << SCL_PIN);
 
-            g_gpio1_registers->gpio_cleardataout = (1U << SDL_PIN);
+            g_gpio1_registers->gpio_cleardataout = (1U << SDA_PIN);
             g_gpio1_registers->gpio_cleardataout = (1U << SCL_PIN);
         } else {
             g_gpio1_registers->gpio_setdataout   = 1U << SCL_PIN;
@@ -87,8 +87,36 @@ void
 i2c_send_address(uint8_t addr, addr_mode_t mode)
 { send_byte((addr & 0xEF) | (mode << 7)); }
 
-void
+ack_response_t
 i2c_ack(void)
 {
-    // TODO: Make the ACK.
+    uint8_t sampled_sda; /* The sample of the SDA after setting
+                            the SCL high. */
+
+    /* Switch the SDA to input, so that the
+       master can recieve the ack bit.*/
+    g_gpio1_registers->gpio_oe |= (1U << SDA_PIN);
+    /* Set the SCL high, to make the target emit the
+       ack bit. */
+    g_gpio1_registers->gpio_setdataout = (1U << SCL_PIN);
+
+    /* Take a sample of the SDA. */
+    sampled_sda = (g_gpio1_registers->gpio_datain >> SDA_PIN) & 0x1;
+
+    /* Drop the SCL down again, which completes a clock cycle. */
+    g_gpio1_registers->gpio_cleardataout = (1U << SCL_PIN);
+
+    /* If the device didn't respond, the line should be HIGH. */
+    if (0x1U == sampled_sda) {
+        /* Restore the SDA. */
+        g_gpio1_registers->gpio_oe &= ~(1U << SDA_PIN);
+        g_gpio1_registers->gpio_cleardataout = (1U << SDA_PIN);
+        return NACK;
+    }
+
+    /* Restore the SDA. */
+    g_gpio1_registers->gpio_oe &= ~(1U << SDA_PIN);
+    g_gpio1_registers->gpio_cleardataout = (1U << SDA_PIN);
+
+    return ACK;
 }
