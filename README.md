@@ -1,3 +1,5 @@
+In progress... 
+
 # Introduction 
 This project was created to learn more about the BeagleBone Black and, more generally, the communication protocols commonly used in embedded systems. It is a complementary project that should be done with a Beagle V Fire. In this scenario, the Beaglebone black took the role of the I2C Master, while the Beagle V Fire took the role of the target. Moreover, the Beagle V Fire contains a design, which is implemented by another person, not me, a college, and is used to control the USER LEDs available on the board.
 
