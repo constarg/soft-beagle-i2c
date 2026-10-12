@@ -30,4 +30,9 @@
 
 #define __IO volatile
 
+#define assert_offset(type, member, expected)           \
+    static_assert(offsetof(type, member) == (expected), \
+                  "Offset mismatch: " #type "." #member \
+                  " is not at " #expected)
+
 #endif  // __COMMON_H__
