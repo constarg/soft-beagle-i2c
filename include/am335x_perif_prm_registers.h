@@ -23,6 +23,8 @@
 #ifndef __AM335X_PERIF_PRM_REGISTERS__H__
 #define __AM335X_PERIF_PRM_REGISTERS__H__
 
+#include <assert.h>
+#include <stddef.h>
 #include <stdint.h>
 
 #include "common.h"
@@ -34,5 +36,9 @@ typedef struct
     __IO uint32_t pm_per_pwrstst;
     __IO uint32_t pm_per_pwrstctrl;
 } power_perif_regs_t;
+
+assert_offset(power_perif_regs_t, pm_per_rstctrl, 0x0);
+assert_offset(power_perif_regs_t, pm_per_pwrstst, 0x8);
+assert_offset(power_perif_regs_t, pm_per_pwrstctrl, 0xC);
 
 #endif  // __AM335X_PERIF_PRM_REGISTERS__H__

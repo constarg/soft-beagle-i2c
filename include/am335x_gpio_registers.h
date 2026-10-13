@@ -23,6 +23,8 @@
 #ifndef __AM335X_GPIO_REGISTERS__H__
 #define __AM335X_GPIO_REGISTERS__H__
 
+#include <assert.h>
+#include <stddef.h>
 #include <stdint.h>
 
 #include "common.h"
@@ -61,5 +63,32 @@ typedef struct
     __IO uint32_t gpio_cleardataout;
     __IO uint32_t gpio_setdataout;
 } gpio_regs_t;
+
+assert_offset(gpio_regs_t, gpio_revision, 0x0);
+assert_offset(gpio_regs_t, gpio_sysconfig, 0x10);
+assert_offset(gpio_regs_t, gpio_eoi, 0x20);
+assert_offset(gpio_regs_t, gpio_irqstatus_raw_0, 0x24);
+assert_offset(gpio_regs_t, gpio_irqstatus_raw_1, 0x28);
+assert_offset(gpio_regs_t, gpio_irqstatus_0, 0x2C);
+assert_offset(gpio_regs_t, gpio_irqstatus_1, 0x30);
+assert_offset(gpio_regs_t, gpio_irqstatus_set_0, 0x34);
+assert_offset(gpio_regs_t, gpio_irqstatus_set_1, 0x38);
+assert_offset(gpio_regs_t, gpio_irqstatus_clr_0, 0x3C);
+assert_offset(gpio_regs_t, gpio_irqstatus_clr_1, 0x40);
+assert_offset(gpio_regs_t, gpio_irqwaken_0, 0x44);
+assert_offset(gpio_regs_t, gpio_irqwaken_1, 0x48);
+assert_offset(gpio_regs_t, gpio_sysstatus, 0x114);
+assert_offset(gpio_regs_t, gpio_ctrl, 0x130);
+assert_offset(gpio_regs_t, gpio_oe, 0x134);
+assert_offset(gpio_regs_t, gpio_datain, 0x138);
+assert_offset(gpio_regs_t, gpio_dataout, 0x13C);
+assert_offset(gpio_regs_t, gpio_leveldetect0, 0x140);
+assert_offset(gpio_regs_t, gpio_leveldetect1, 0x144);
+assert_offset(gpio_regs_t, gpio_risingdetect, 0x148);
+assert_offset(gpio_regs_t, gpio_fallingdetect, 0x14C);
+assert_offset(gpio_regs_t, gpio_debouncenable, 0x150);
+assert_offset(gpio_regs_t, gpio_debouncingtime, 0x154);
+assert_offset(gpio_regs_t, gpio_cleardataout, 0x190);
+assert_offset(gpio_regs_t, gpio_setdataout, 0x194);
 
 #endif  // __AM335X_GPIO_REGISTERS__H__
